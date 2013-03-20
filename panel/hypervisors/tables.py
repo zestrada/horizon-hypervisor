@@ -18,9 +18,17 @@ from horizon import tables
 from django.utils.translation import ugettext_lazy as _
 
 class HypervisorListTable(tables.DataTable):
-    ID = tables.Column("id", verbose_name=_("ID"))
+    ID = tables.Column('id', verbose_name=_("ID"))
     hostname = tables.Column('hypervisor_hostname', verbose_name=_("Hostname"))
 
     class Meta:
-        name = "hypervisors"
-        verbose_name = _("Hypervisors")
+        name = "hypervisors_list"
+        verbose_name = _("Hypervisor List")
+
+class HypervisorStatsTable(tables.DataTable):
+    prop = tables.Column('property', verbose_name=_("Property"))
+    val = tables.Column('value', verbose_name=_("Value"))
+
+    class Meta:
+        name = "hypervisors_stats"
+        verbose_name = _("Hypervisor Stats")

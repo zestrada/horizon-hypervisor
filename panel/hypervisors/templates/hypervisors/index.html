@@ -9,9 +9,10 @@
 {% block main %}
   {% load i18n sizeformat %}
   <div class="hypervisor_list_wrapper">
-    <p id="activity">
-      <span><strong>{% trans "Active Hypervisors" %}:</strong> {{ hypervisors.list.count|default:'-' }}</span>
-    </p>
+      {{ hypervisors_list_table.render }}
   </div>
-  {{ table.render }}
+
+  <div class="hypervisor_stats_wrapper">
+      {{ hypervisors_stats_table.render }}
+  </div>
 {% endblock %}

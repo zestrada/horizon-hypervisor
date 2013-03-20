@@ -22,12 +22,29 @@ from novaclient import base
 from horizon import tables
 
 from .tables import HypervisorListTable
+from .tables import HypervisorStatsTable
 
-class IndexView(tables.DataTableView):
-    table_class = HypervisorListTable
-    template_name = 'admin/hypervisors/list.html'
+class IndexView(tables.MultiTableView):
+    table_classes = (HypervisorListTable,HypervisorStatsTable)
+    template_name = 'admin/hypervisors/index.html'
 
-    def get_data(self):
+    def get_hypervisors_list_data(self):
         nova = api.nova.novaclient(self.request)
         hypervisor_list = nova.hypervisors.list(False)
         return hypervisor_list
+
+    def get_hypervisors_stats_data(self):
+        nova = api.nova.novaclient(self.request)
+        hypervisor_stats = nova.hypervisors.statistics()._info.copy()
+        statList = []
+        for k,v in hypervisor_stats.items():
+            statList.append(HypStat(k,v))
+        return statList
+
+class HypStat(object):
+    property = ""
+    value = ""
+    def __init__(self,prop,val):
+        self.id = prop
+        self.property = prop
+        self.value = val
